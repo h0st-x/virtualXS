@@ -14,14 +14,14 @@ The following systems are supported:
 - Centos8 (Minimal)
 - Rocky Linux 9.x
 - Rocky Linux 8.x
-- AWS & Azure machines
+- AWS & Azure machines!
 
 ## WARNING:
 
 THIS SCRIPT COMES WITH ABSOLUTE NO WARRANTY,
 THIS SCRIPT IS ABSOLUTE BETA STUFF. DO NOT USE IT ON PRODUCTION SYSTEMS
 
-(C) 2021-2022 by Dipl. Wirt.-Ing. Nick Herrmann
+(C) 2021-2023 by Dipl. Wirt.-Ing. Nick Herrmann
 This program is WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
