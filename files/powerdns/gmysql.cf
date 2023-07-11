@@ -1,0 +1,23 @@
+### by BitWorker
+### Launch gmysql backend
+###
+###
+launch=gmysql
+
+### gmysql parameters
+###
+###
+gmysql-host=localhost
+gmysql-port=3306
+gmysql-dbname=powerdns
+gmysql-user=pdnsadmin
+gmysql-password=password
+gmysql-dnssec=yes
+
+api=yes
+api-key=YourVerySecretKey007
+webserver-address=127.0.0.1
+webserver-allow-from=127.0.0.1,::1
+
+default-soa-content=ns001.host-x.de sys.host-x.de 0 10800 3600 604800 38400
+default-ttl=86400

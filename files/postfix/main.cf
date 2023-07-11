@@ -1,0 +1,77 @@
+
+
+
+
+
+### by BitWorker
+###
+###
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+smtpd_tls_auth_only = yes
+broken_sasl_auth_clients = yes
+smtpd_sasl_security_options = noanonymous
+
+virtual_mailbox_base = /virtualmail/
+virtual_mailbox_domains = mysql:/etc/postfix/mysql-domains.cf
+virtual_maps = mysql:/etc/postfix/mysql-virtual.cf
+
+
+smtpd_relay_restrictions =
+       permit_sasl_authenticated,
+       permit_mynetworks,
+       reject_unauth_destination
+
+
+smtpd_recipient_restrictions =
+        check_recipient_access hash:/etc/postfix/access,
+        check_sender_access hash:/etc/postfix/access,
+        permit_sasl_authenticated,
+        permit_mynetworks,
+        reject_non_fqdn_recipient,
+        reject_unknown_recipient_domain,
+        reject_unknown_sender_domain,
+        reject_unauth_destination,
+        reject_unauth_pipelining,
+        reject_invalid_hostname,
+        reject_rbl_client relays.ordb.org,
+        reject_rbl_client bl.spamcop.net,
+        reject_rbl_client sbl.spamhaus.org,
+        reject_rbl_client dsn.rfc-ignorant.org,
+        reject_rbl_client cbl.abuseat.org
+
+
+
+### HOST-X Bounce bounce_template
+###
+###
+bounce_template_file = /etc/postfix/bounce.de.default
+
+
+
+### opendkim standard config (uncomment for use)
+###
+###
+#milter_default_action = accept
+#milter_protocol   = 6
+#smtpd_milters     = inet:127.0.0.1:8891
+#non_smtpd_milters = inet:127.0.0.1:8891
+
+
+### Cert
+### Hint: Cert must be an fullchain to work correctly with roundcube
+### Comment smtpd_tls_cert_file and smtpd_tls_key_file above in the main.cf smtpd_tls_key_file
+###
+###
+#smtpd_tls_cert_file = /etc/ssl/certs/domainname.fullchain
+#smtpd_tls_key_file = /etc/ssl/certs/domainname.key
+
+### max message and mailbox size in Byte
+### 100MB = 102400000
+### 1GB = 1024000000
+###
+###
+message_size_limit = 102400000
+mailbox_size_limit = 1024000000
+virtual_mailbox_limit = 1024000000

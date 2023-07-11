@@ -1,0 +1,12 @@
+[Unit]
+Description=BitWorker Firewall
+After=network.service
+
+[Service]
+ExecStart=/etc/firewall/rules.fw
+ExecStop=/etc/firewall/stop.sh
+#PIDFile=/var/run/firewall.pid
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
