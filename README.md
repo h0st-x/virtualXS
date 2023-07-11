@@ -14,7 +14,7 @@ The following systems are supported:
 - Centos8 (Minimal)
 - Rocky Linux 9.x
 - Rocky Linux 8.x
-- AWS & Azure machines!
+- AWS & Azure machines!!
 
 ## WARNING:
 
