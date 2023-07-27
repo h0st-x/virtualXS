@@ -10,7 +10,7 @@ virtualXS is a smart swiss knife utility script to create a Virtual-Hosting-Serv
 
 The following systems are supported:
 
-- RHEL9 (Minimal)
+- RHEL9 (Minimal.)
 - RHEL8 (Minimal)
 - Centos8 (Minimal)
 - Rocky Linux 9.x
