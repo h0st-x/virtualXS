@@ -1,8 +1,10 @@
 # virtualXS
 
+[![nvm version](https://img.shields.io/badge/version-v0.39.4-yellow.svg)][4]
+
 ## Disclaimer
 
-The Python part of this script is still in development and in ALPHA state.
+The Python part of this script is still in development and in ALPHA state!
 
 ##
 
@@ -10,9 +12,9 @@ virtualXS is a smart swiss knife utility script to create a Virtual-Hosting-Serv
 
 The following systems are supported:
 
-- RHEL9 (Minimal.)
-- RHEL8 (Minimal.)
-- Centos8 (Minimal)
+- RHEL9 (Minimal is recommended)
+- RHEL8 (Minimal is recommended)
+- Centos8 (Minimal is recommended)
 - Rocky Linux 9.x
 - Rocky Linux 8.x
 - AWS and Azure machines.
