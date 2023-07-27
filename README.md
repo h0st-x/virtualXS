@@ -1,6 +1,6 @@
 # virtualXS
 
-[![nvm version](https://img.shields.io/badge/version-v0.39.4-yellow.svg)][4]
+![nvm version](https://img.shields.io/badge/version-v0.39.4-yellow.svg)
 
 ## Disclaimer
 
