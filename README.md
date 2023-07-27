@@ -2,7 +2,7 @@
 
 ## Disclaimer
 
-The Python part of this script is still in development and not usable in this state.
+The Python part of this script is still in development and in ALPHA state.
 
 ##
 
@@ -10,6 +10,7 @@ virtualXS is a smart swiss knife utility script to create a Virtual-Hosting-Serv
 
 The following systems are supported:
 
+- RHEL9 (Minimal)
 - RHEL8 (Minimal)
 - Centos8 (Minimal)
 - Rocky Linux 9.x
@@ -66,6 +67,8 @@ vxs
 That's it folks!
 
 ## Changelog
+
+07/27/23 - Documentation work
 
 08/13/22 - Bugfixes for Rocky Linux 9
 
