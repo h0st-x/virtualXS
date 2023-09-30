@@ -17,6 +17,8 @@ The following systems are supported:
 - Centos8 (Minimal is recommended)
 - Rocky Linux 9.x
 - Rocky Linux 8.x
+- Alma Linux 8.x
+- Alma Linux 9.x
 - AWS and Azure machines.
 
 ## WARNING:

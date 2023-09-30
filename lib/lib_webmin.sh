@@ -2,7 +2,7 @@
 
 file_webmin001=/etc/webmin/miniserv.conf
 file_webmin002=/etc/webmin/config
-webmin_version=1.990
+webmin_version=2.102
 
 ### /webmin/
 ###
