@@ -15,10 +15,10 @@ The following systems are supported:
 - RHEL9 (Minimal is recommended)
 - RHEL8 (Minimal is recommended)
 - Centos8 (Minimal is recommended)
-- Rocky Linux 9.x
-- Rocky Linux 8.x
-- Alma Linux 8.x
-- Alma Linux 9.x
+- Rocky Linux 9.x (Minimal is recommended)
+- Rocky Linux 8.x (Minimal is recommended)
+- Alma Linux 8.x (Minimal is recommended)
+- Alma Linux 9.x (Minimal is recommended)
 - AWS and Azure machines.
 
 ## WARNING:
