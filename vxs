@@ -35,7 +35,7 @@ clear
 ###
 infocolor=$(tput setaf 6) # DEV
 tput setaf 6
-u_version=1.1.20
+u_version=1.1.21
 u_ip4=$(hostname --all-ip-addresses | cut -d' ' -f 1)
 u_hostname=$(hostname)
 ### get the ip of the client ssh
