@@ -1,16 +1,19 @@
 #!/bin/bash
 
-### Version: 1.1.28
-### Build date: 27.09.2023
+### Version: 1.1.29
+### Build date: 01.10.2023
 ### (C) 2021 - 2023 by Dipl. Wirt.-Ing. Nick Herrmann
 ### This program is WITHOUT ANY WARRANTY; without even the implied warranty of
 ### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 ###
 ###
+clear
 
-### Sources
-### color formating: https://misc.flogisoft.com/bash/tip_colors_and_formatting
 ###
+###
+###
+source $u_path/lib/functions.sh
+
 
 ### prework
 ###
@@ -32,18 +35,12 @@ for release in /etc/*-release; do
 done
 
 
-
-###
-###
-###
-clear
-
-### some vars
+### some vars & presetting
 ###
 ###
 infocolor=$(tput setaf 6) # DEV
 tput setaf 6
-u_version=1.1.28
+u_version=1.1.29
 u_ip4=$(hostname --all-ip-addresses | cut -d' ' -f 1)
 u_hostname=$(hostname)
 ### get the ip of the client ssh
@@ -55,32 +52,21 @@ u_eth=eth0
 u_aws=n
 u_all=n
 
+
 ### correct time rules first
 ###
 ###
 timedatectl set-timezone Europe/Berlin
+
 
 ### set new hostname
 ###
 ###
 hostnamectl set-hostname $u_hostname
 
-### print centered some lines and write some infos
-### https://superuser.com/questions/823883/how-to-justify-and-center-text-in-bash/829870
-###
-print_center() {
-    local x
-    local y
-    text="$*"
-    x=$((($(tput cols) - ${#text}) / 2))
-    echo -ne "\E[6n"
-    read -sdR y
-    y=$(echo -ne "${y#*[}" | cut -d';' -f1)
-    echo -ne "\033[${y};${x}f$*"
-}
+
 
 echo -ne "\\033[2J\033[30;1f\e[94m"
-
 print_center "********************************************************************\n"
 print_center "*                                                                  *\n"
 print_center " *            Welcome to VirtualXS Install - Version $u_version         *\n"
@@ -88,6 +74,8 @@ print_center " *                    Detected OS: $OS - Version: $VERSION        
 print_center " *                                                                  *\n"
 print_center " ********************************************************************\n"
 printf "\n"
+
+
 
 if [ ! -f "$dir001/disclaimer" ]; then
 
@@ -103,13 +91,35 @@ fi
 
 
 
-### q prework - ask for ip and servername
+### get ip and servername
 ###
 ###
 read -p "Server IP adress: " -ei $u_ip4 u_ip
-read -p "Servername (FQDN): " -ei $u_hostname u_srv
-u_domain=$(echo "$u_srv" | cut -d'.' -f 2,3)
-read -p "Domain (eg. domain.tld): " -ei $u_domain u_domain
+
+### get FQDN
+###
+###
+regex='^[^.]+\.[^.]+\.[^.]+$'
+
+while true; do
+    read -p "Servername (FQDN): " -ei "$u_hostname" u_srv
+    if [[ $u_srv =~ $regex ]]; then
+        break
+    else
+        echo "Servername must be FQDN."
+    fi
+done
+
+### get domain
+###
+###
+u_domain=$(echo "$u_srv" | awk -F'.' '{print $(NF-1)"."$NF}')
+
+
+
+###
+###
+###
 read -p "Your IP (Client IP): " -ei $u_client_ip u_client_ip
 
 
@@ -154,9 +164,28 @@ done
 ###
 ###
 ###
-read -p "Create Web or DNS Server [w/d]: " -ei $u_server u_server
-read -p "Create on AWS [y/n]: " -ei $u_aws u_aws
+while true; do
+    read -p "Create Web or DNS Server [w/d]: " u_server
+    case $u_server in
+        [w] ) break;;
+        [d] ) break;;
+        * ) echo "Please enter only 'w' or 'd'.";;
+    esac
+done
 
+
+
+###
+###
+###
+confirm "Create on AWS" "$u_aws"
+
+
+
+
+###
+###
+###
 if [ "$u_server" = "d" ]; then
     u_bitworker_repo=y
     u_epel_repo=y
@@ -188,10 +217,14 @@ if [ "$u_server" = "d" ]; then
     u_start_firewall=
 fi
 
+
+
 ### set hostname
 ###
 ###
 hostnamectl set-hostname $u_srv
+
+
 
 ### q run virtx.repo
 ###
@@ -208,6 +241,8 @@ if [ ! -f "/etc/yum.repos.d/virtx.repo" ]; then
     fi
 
 fi
+
+
 
 ### q run epel.repo
 ###
@@ -231,6 +266,8 @@ if [ ! -f "/etc/yum.repos.d/epel.repo" ]; then
     fi
 
 fi
+
+
 
 u_sql_server=mysql
 printf "\n\n***********************************************\n\n"
@@ -264,6 +301,9 @@ if [ ! -f "$dir001/rebooted" ]; then
         reboot
     fi
 fi
+
+
+
 ### q install php 8.1
 ### don't show, if we install on ROCKY 9. ROCKY 9 will install php 8 by default
 ###
@@ -273,16 +313,23 @@ else
     source $u_path/lib/lib_php81.sh
 fi
 
+
+
+
 ### q apps
 ###
 ###
 source $u_path/lib/lib_apps_disable.sh
 source $u_path/lib/lib_apps.sh
 
+
+
 ### q create standard folders
 ###
 ###
 source $u_path/lib/lib_folders.sh
+
+
 
 ### q config Posftix
 ###
@@ -296,6 +343,8 @@ if [ "$u_aws" = "n" ]; then
     source $u_path/lib/lib_ssh.sh
 fi
 
+
+
 ### q config fail2ban
 ###
 ###
@@ -304,15 +353,20 @@ if ! command -v fail2ban-client &> /dev/null; then
 fi
 
 
+
 ### q config helper apps
 ###
 ###
 source $u_path/lib/lib_helper_apps.sh
 
+
+
 ### q config httpd
 ###
 ###
 source $u_path/lib/lib_httpd.sh
+
+
 
 ### q activate protocol http/2
 ###
@@ -320,6 +374,8 @@ source $u_path/lib/lib_httpd.sh
 if [ "$u_server" = "w" ]; then
     source $u_path/lib/lib_httpd2.sh
 fi 
+
+
 
 ### q config dovecot
 ###
@@ -333,10 +389,14 @@ if [ "$u_server" = "w" ]; then
     source $u_path/lib/lib_certbot.sh
 fi 
 
+
+
 ### q config autoconfig
 ###
 ###
 source $u_path/lib/lib_autoconfig.sh
+
+
 
 ### q config vsftpd
 ###
@@ -348,6 +408,8 @@ source $u_path/lib/lib_vsftpd.sh
 ###
 source $u_path/lib/lib_mysql.sh
 
+
+
 ### q config ssl
 ###
 ###
@@ -355,15 +417,21 @@ if [ "$u_aws" = "n" ]; then
     source $u_path/lib/lib_ssl.sh
 fi
 
+
+
 ### q config backup
 ###
 ###
 source $u_path/lib/lib_backup.sh
 
+
+
 ### q config backup
 ###
 ###
 source $u_path/lib/lib_quota.sh
+
+
 
 ### q dns server
 ###
@@ -372,15 +440,21 @@ if [ "$u_server" = "d" ]; then
     source $u_path/lib/lib_powerdns.sh
 fi
 
+
+
 ### q Webmin
 ###
 ###
 source $u_path/lib/lib_webmin.sh
 
+
+
 ### q install magento
 ###
 ###
 ### source $u_path/lib/lib_magento.sh
+
+
 
 ### /etc/firewall
 ###
@@ -389,26 +463,37 @@ if [ "$u_aws" = "n" ]; then
     source $u_path/lib/lib_firewall.sh
 fi
 
+
+
 ### /etc/logrotate.conf
 ###
 ###
 source $u_path/lib/lib_logrotate.sh
+
+
 
 ### /etc/selinux/config
 ###
 ###
 source $u_path/lib/lib_selinux.sh
 
+
+
 ### /etc/crontab
 ###
 ###
 source $u_path/lib/lib_cron.sh
 
-### do this ahain, for security reason
-### we to be absolutly surem that this shit is turned off
+
+
+### we want to be absolutly sure that firewalld is turned off
+###
+###
 if [ -f "/etc/systemd/system/multi-user.target.wants/firewalld.service" ]; then
     systemctl disable firewalld
 fi
+
+
 
 ### q Reboot
 ###
@@ -420,13 +505,15 @@ if [ "$u_aws" = "n" ]; then
     fi
 fi
 
+
+
 printf "\n\n"
 print_center "********************************************************************\n"
 print_center "*                                                                  *\n"
 print_center "*                  Thanks for working with VXS                     *\n"
 print_center "*                                                                  *\n"
 print_center "*                                                                  *\n"
-print_center "*                TEST NOW YOUR SSH CONNECTION !!!                  *\n"
+print_center "*                NOW TEST YOUR SSH CONNECTION !!!                  *\n"
 print_center "*                                                                  *\n"
 print_center "*                                                                  *\n"
 print_center "*                      Have a nice day ;-)                         *\n"
@@ -434,17 +521,27 @@ print_center "*                                                                 
 print_center "********************************************************************\n"
 printf "\n"
 
+
+###
+###
+###
 if [ -e "/tmp/time.log" ]; then
     unlink /tmp/time.log
 fi
 
+
+###
+###
+###
 if [ "$u_aws" = "n" ]; then
     if [ "$u_reboot" = "y" ]; then
         reboot
     fi
 fi
 
-### bye bye
+
+
+###
 ###
 ###
 exit 0
