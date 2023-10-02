@@ -4,19 +4,19 @@ file_php_001=/etc/php.ini
 file_php_002=/etc/httpd/conf.d/php.conf
 file_php_003=/etc/php.d
 
-### install php 7.4
+### install php 8.1
 ###
 ###
-printf "\n\n***********************************************\n\nInstall php 7.4 instead using php 7.2 [y/n]: "
-if [ "$u_php74" = "" ]; then
-    read u_php74
+printf "\n\n***********************************************\n\nInstall php 8.1 instead using php 8.1 [y/n]: "
+if [ "$u_php81" = "" ]; then
+    read u_php81
 fi
 
-if [ "$u_php74" = "y" ]; then
+if [ "$u_php81" = "y" ]; then
 
     dnf -y upgrade
     dnf -y module reset php
-    dnf -y module install php:7.4
+    dnf -y module install php:8.1
 
 fi
 

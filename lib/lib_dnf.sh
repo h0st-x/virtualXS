@@ -25,13 +25,10 @@ fi
 ### install
 ###
 ###
-u_dnf=y
-printf "\n\n***********************************************\n\n"
-read -p "Install apps via dnf [y/n]: " -ei $u_dnf u_dnf
-#printf "\n\n***********************************************\n\nInstall apps via dnf [y/n]: "
-#if [ "$u_dnf" = "" ]; then
-#    read u_dnf
-#fi
+printf "\n\n***********************************************\n\nInstall apps via dnf [y/n]: "
+if [ "$u_dnf" = "" ]; then
+    read u_dnf
+fi
 
 if [ "$u_dnf" = "y" ]; then
 

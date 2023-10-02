@@ -13,7 +13,9 @@ if [ "$u_postfix" = "y" ]; then
     file_postfix001=/etc/postfix/main.cf
     file_postfix002=/etc/postfix/master.cf
 
-    #grep BitWorker
+    ### grep BitWorker
+    ###
+    ###
     u_bitworker=$(grep -m 1 "### by BitWorker" /etc/postfix/main.cf)
 
     if [ -f "$file_postfix001" ] && [ "$u_bitworker" != "### by BitWorker" ]; then
